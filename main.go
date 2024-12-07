@@ -7,11 +7,10 @@ productos y del usuario junto con la función getProduct*/
 package main
 
 import (
-	"Proyecto-E-commerce-Sare-Campuzano/models" // Importa tus modelos personalizados
-
-	"net/http"
-
+	"Proyecto-E-commerce-proyecto/models"
+	"Proyecto-E-commerce-proyecto/service"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 var (
@@ -32,8 +31,12 @@ func main() {
 	// Servir archivos estáticos (CSS, JS)
 	r.Static("/static", "./static")
 
+	r.GET("/formulario-categoria", service.FormularioCrearCategoria)
+	r.POST("/crear-categoria", service.CrearCategoria)
+
 	// Ruta para mostrar la página principal del e-commerce
 	r.GET("/", func(c *gin.Context) {
+
 		c.HTML(http.StatusOK, "index.html", gin.H{
 			"productos":    productos,
 			"totalCarrito": carrito.Total,
@@ -41,32 +44,10 @@ func main() {
 	})
 
 	// Ruta para agregar un producto al carrito
-	r.POST("/add-to-cart", func(c *gin.Context) {
-		var productoID int
-		if err := c.ShouldBindJSON(&productoID); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "ID de producto inválido"})
-			return
-		}
-
-		// Buscar producto por ID
-		for _, p := range productos {
-			if p.ID == productoID {
-				carrito.AgregarProducto(p)
-				c.JSON(http.StatusOK, gin.H{"message": "Producto agregado al carrito"})
-				return
-			}
-		}
-
-		c.JSON(http.StatusNotFound, gin.H{"error": "Producto no encontrado"})
-	})
+	r.POST("/add-to-cart", service.AddToCart)
 
 	// Ruta para mostrar el contenido del carrito
-	r.GET("/cart", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "cart.html", gin.H{
-			"productos": carrito.Productos,
-			"total":     carrito.Total,
-		})
-	})
+	r.GET("/cart", service.GetCart)
 
 	// Iniciar el servidor
 	r.Run(":8080")
