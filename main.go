@@ -15,9 +15,9 @@ import (
 
 var (
 	productos = []models.Producto{
-		{ID: 1, Nombre: "Laptop", Precio: 1000.0, Stock: 10},
-		{ID: 2, Nombre: "Smartphone", Precio: 700.0, Stock: 15},
-		{ID: 3, Nombre: "Headphones", Precio: 100.0, Stock: 20},
+		{ID: 1, Nombre: "Laptop", Precio: 1000.0, Stock: 10, Imagen: "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/page/category/laptop/xps/fy24-family-launch/prod-312204-laptop-xps-16-9640-14-9440-13-9340-sl-800x620.png?fmt=png-alpha&wid=800&hei=620"},
+		{ID: 2, Nombre: "Smartphone", Precio: 700.0, Stock: 15, Imagen: "https://cdsassets.apple.com/live/7WUAS350/images/tech-specs/iphone-16.png"},
+		{ID: 3, Nombre: "Headphones", Precio: 100.0, Stock: 20, Imagen: "https://i.ytimg.com/vi/UK72L99YbUE/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDmMCosMtxXMOxdtvoUClYWQUbUPQ"},
 	}
 	carrito = models.Carrito{ID: 1}
 )

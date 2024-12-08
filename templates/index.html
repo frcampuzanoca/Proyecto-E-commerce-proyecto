@@ -4,22 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-commerce</title>
-    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="static/styles.css">
 </head>
 <body>
-    <h1>Bienvenido a nuestro E-commerce</h1>
-    <div id="products">
-        {{range .products}}
-        <div class="product">
-            <h2>{{.Name}}</h2>
-            <p>Precio: ${{.Price}}</p>
-            <button onclick="addToCart({{.ID}})">Agregar al carrito</button>
-        </div>
-        {{end}}
+<!-- Barra de navegación -->
+<div class="navbar">
+    <h1 class="welcome-text">Bienvenidos a Nuestro Ecommerce</h1>
+    <div class="nav-buttons">
+        <button class="nav-btn">Iniciar Sesión</button>
+        <button class="nav-btn">Carrito</button>
     </div>
-    <div>
-        <a href="/cart">Ver carrito (Total: ${{.cartTotal}})</a>
+</div>
+
+<!-- Contenido principal -->
+<div id="products" class="centered">
+    {{range .productos}}
+    <div class="product">
+        <img src="{{.Imagen}}">
+        <h2>{{.Nombre}}</h2>
+        <p>Precio: ${{.Precio}}</p>
+        <button>Agregar al carrito</button>
+        <button>Calificación</button>
     </div>
-    <script src="/static/scripts.js"></script>
+    {{end}}
+</div>
+
+<div class="centered">
+    <a href="/cart">Ver carrito (Total: ${{.cartTotal}})</a>
+</div>
+
+<script src="/static/scripts.js"></script>
 </body>
 </html>

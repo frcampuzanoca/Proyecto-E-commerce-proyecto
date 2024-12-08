@@ -12,6 +12,7 @@ type Producto struct {
 	Precio      float64  `json:"precio"`
 	Categorias  []string `json:"categorias"`
 	Stock       int      `json:"stock"`
+	Imagen      string   `json:"imagen"`
 }
 
 // Devuelve y asigna el precio del producto
