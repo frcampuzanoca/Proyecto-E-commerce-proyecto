@@ -1,38 +1,67 @@
+<!-- templates/index.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-commerce</title>
-    <link rel="stylesheet" href="static/styles.css">
+    <title>Mi Tienda E-commerce</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        .categories {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+        .category {
+            background-color: #fff;
+            border-radius: 10px;
+            margin: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            width: 300px;
+        }
+        .category:hover {
+            transform: scale(1.05);
+        }
+        .category img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .category-title {
+            margin-top: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #555;
+        }
+    </style>
 </head>
 <body>
-<!-- Barra de navegación -->
-<div class="navbar">
-    <h1 class="welcome-text">Bienvenidos a Nuestro Ecommerce</h1>
-    <div class="nav-buttons">
-        <button class="nav-btn">Iniciar Sesión</button>
-        <button class="nav-btn">Carrito</button>
+    <h1>Bienvenido a Mi Tienda E-commerce</h1>
+    <div class="categories">
+        {{ range .productos }}
+        <div class="category">
+            <img src="{{ .Imagen }}" alt="{{ .Nombre }}">
+            <div class="category-title">{{ .Nombre }}</div>
+            <p>Precio: ${{ .Precio }}</p>
+            <p>Stock: {{ .Stock }}</p>
+            <form action="/add-to-cart" method="POST">
+                <input type="hidden" name="producto_id" value="{{ .ID }}">
+                <button type="submit">Agregar al Carrito</button>
+            </form>
+        </div>
+        {{ end }}
     </div>
-</div>
-
-<!-- Contenido principal -->
-<div id="products" class="centered">
-    {{range .productos}}
-    <div class="product">
-        <img src="{{.Imagen}}">
-        <h2>{{.Nombre}}</h2>
-        <p>Precio: ${{.Precio}}</p>
-        <button>Agregar al carrito</button>
-        <button>Calificación</button>
-    </div>
-    {{end}}
-</div>
-
-<div class="centered">
-    <a href="/cart">Ver carrito (Total: ${{.cartTotal}})</a>
-</div>
-
-<script src="/static/scripts.js"></script>
 </body>
 </html>

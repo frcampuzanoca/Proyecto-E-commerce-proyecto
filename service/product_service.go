@@ -1,39 +1,45 @@
 package service
 
 import (
-	"database/sql"
-	"fmt"
-
 	"Proyecto-E-commerce-proyecto/models"
+	"database/sql"
+	"log"
 )
 
-// GetAllProducts (exportada, empieza con mayúscula) hace SELECT a la tabla "productos".
+// GetAllProducts obtiene todos los productos de la base de datos
 func GetAllProducts(db *sql.DB) ([]models.Producto, error) {
-	rows, err := db.Query(`
-        SELECT 
-            id,
-            nombre,
-            precio,
-            stock,
-            imagen
+	query := `
+        SELECT id, nombre, categoria, precio, descripcion, stock, fecha_creacion 
         FROM productos
-    `)
+    `
+	rows, err := db.Query(query)
 	if err != nil {
-		return nil, fmt.Errorf("error al consultar productos: %v", err)
+		return nil, err
 	}
 	defer rows.Close()
 
 	var productos []models.Producto
-
 	for rows.Next() {
 		var p models.Producto
-		if err := rows.Scan(&p.ID, &p.Nombre, &p.Precio, &p.Stock, &p.Imagen); err != nil {
-			return nil, fmt.Errorf("error al escanear producto: %v", err)
+		err := rows.Scan(
+			&p.ID,
+			&p.Nombre,
+			&p.Categoria,
+			&p.Precio,
+			&p.Descripcion,
+			&p.Stock,
+			&p.Imagen,
+			&p.FechaCreacion,
+		)
+		if err != nil {
+			log.Printf("Error al escanear fila: %v", err)
+			continue // Puedes decidir si continuar o retornar el error
 		}
 		productos = append(productos, p)
 	}
-	if err = rows.Err(); err != nil {
-		return nil, fmt.Errorf("error en el recorrido de productos: %v", err)
+
+	if err := rows.Err(); err != nil {
+		return nil, err
 	}
 
 	return productos, nil
