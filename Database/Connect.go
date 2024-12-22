@@ -17,8 +17,28 @@ func Connect() (*sql.DB, error) {
 	port := os.Getenv("DB_PORT")
 	nombreBase := os.Getenv("DB_NAME")
 
-	if usuario == "" || contrasena == "" || host == "" || port == "" || nombreBase == "" {
-		log.Fatal("Faltan variables de entorno necesarias")
+	// Verificar si faltan variables
+	missingVars := []string{}
+
+	if usuario == "" {
+		missingVars = append(missingVars, "DB_USER")
+	}
+	if contrasena == "" {
+		missingVars = append(missingVars, "DB_PASSWORD")
+	}
+	if host == "" {
+		missingVars = append(missingVars, "DB_HOST")
+	}
+	if port == "" {
+		missingVars = append(missingVars, "DB_PORT")
+	}
+	if nombreBase == "" {
+		missingVars = append(missingVars, "DB_NAME")
+	}
+
+	// Si falta alguna variable, se imprime cuáles son y se finaliza la app
+	if len(missingVars) > 0 {
+		log.Fatalf("Faltan variables de entorno: %v", missingVars)
 	}
 
 	// Construir la cadena de conexión (DSN)
@@ -63,8 +83,7 @@ func ListarBasesDeDatos(db *sql.DB) ([]string, error) {
 	return basesDeDatos, nil
 }
 
-// InsertarProductos inserta 10 productos de tecnología, 5 productos de zapatos,
-// 8 productos de cocina y 8 productos de ropa en la tabla "productos".
+// InsertarProductos inserta productos de ejemplo en la tabla "productos".
 func InsertarProductos(db *sql.DB) error {
 	// 10 productos de tecnología
 	techProducts := []struct {
