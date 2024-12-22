@@ -48,7 +48,7 @@ var (
 
 func main() {
 	// 2. Cargar las variables de entorno del archivo .env
-	err := godotenv.Load()
+	err := godotenv.Load(".env")
 	if err != nil {
 		log.Printf("Error al cargar .env: %v", err)
 		// No es forzosamente un "fatal"; puede seguir corriendo sin .env
