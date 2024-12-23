@@ -6,13 +6,13 @@ import (
 
 // Producto representa un artículo disponible para la venta
 type Producto struct {
-	ID          int      `json:"id"`
-	Nombre      string   `json:"nombre"`
-	Descripcion string   `json:"descripcion"`
-	Precio      float64  `json:"precio"`
-	Categorias  []string `json:"categorias"`
-	Stock       int      `json:"stock"`
-	Imagen      string   `json:"imagen"`
+	ID          int     `json:"id"`
+	Nombre      string  `json:"nombre"`
+	Descripcion string  `json:"descripcion"`
+	Precio      float64 `json:"precio"`
+	Categoria   string  `json:"categorias"`
+	Stock       int     `json:"stock"`
+	Imagen      string  `json:"imagen"`
 }
 
 // Devuelve y asigna el precio del producto

@@ -1,3 +1,4 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,8 +12,9 @@
 <div class="navbar">
     <h1 class="welcome-text">Bienvenidos a Nuestro Ecommerce</h1>
     <div class="nav-buttons">
-        <button class="nav-btn">Iniciar Sesión</button>
+        <button onclick="window.location.href='/productos'" class="nav-btn">Gestión de Productos</button>
         <button class="nav-btn">Carrito</button>
+        <button class="nav-btn" onclick="window.location.href='/compras'">Compras Realizadas</button>
     </div>
 </div>
 
@@ -20,10 +22,10 @@
 <div id="products" class="centered">
     {{range .productos}}
     <div class="product">
-        <img src="{{.Imagen}}">
+        <img src="{{.Imagen}}" alt="Producto">
         <h2>{{.Nombre}}</h2>
         <p>Precio: ${{.Precio}}</p>
-        <button>Agregar al carrito</button>
+        <button class="btn-agregar">Agregar al carrito</button>
         <button>Calificación</button>
     </div>
     {{end}}
@@ -33,6 +35,61 @@
     <a href="/cart">Ver carrito (Total: ${{.cartTotal}})</a>
 </div>
 
-<script src="/static/scripts.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Obtener el botón del carrito
+        const cartButton = document.querySelector('.nav-buttons .nav-btn:nth-child(2)');
+
+        // Inicializar el carrito desde localStorage o como un arreglo vacío
+        const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+        // Actualizar el contador del carrito
+        function actualizarCarrito() {
+            const totalItems = carrito.reduce((acc, producto) => acc + producto.cantidad, 0);
+            cartButton.textContent = `Carrito (${totalItems})`;
+        }
+
+        // Agregar producto al carrito
+        function agregarAlCarrito(producto) {
+            const index = carrito.findIndex(item => item.nombre === producto.nombre);
+            if (index !== -1) {
+                carrito[index].cantidad += 1;
+                carrito[index].subtotal = carrito[index].cantidad * carrito[index].precio;
+            } else {
+                producto.cantidad = 1;
+                producto.subtotal = producto.precio;
+                carrito.push(producto);
+            }
+            localStorage.setItem('carrito', JSON.stringify(carrito)); // Guardar carrito en localStorage
+            actualizarCarrito(); // Actualizar contador
+            alert(`${producto.nombre} se agregó al carrito.`);
+        }
+
+        // Configurar eventos en los botones "Agregar al carrito"
+        const botonesAgregar = document.querySelectorAll('.btn-agregar');
+
+        botonesAgregar.forEach((boton) => {
+            boton.addEventListener('click', () => {
+                const productoDiv = boton.closest('.product');
+                const nombre = productoDiv.querySelector('h2').textContent;
+                const precio = productoDiv.querySelector('p').textContent.replace('Precio: $', '');
+                const imagen = productoDiv.querySelector('img').src;
+
+                const producto = { nombre, precio: parseFloat(precio), imagen };
+
+                agregarAlCarrito(producto);
+            });
+        });
+
+        // Redirigir al carrito al hacer clic en el botón "Carrito"
+        cartButton.addEventListener('click', () => {
+            window.location.href = '/cart';
+        });
+
+        // Actualizar el contador al cargar la página
+        actualizarCarrito();
+    });
+</script>
+
 </body>
 </html>

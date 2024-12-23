@@ -14,36 +14,7 @@ import (
 	"github.com/joho/godotenv"
 
 	database "Proyecto-E-commerce-proyecto/Database"
-	"Proyecto-E-commerce-proyecto/models"
 	"Proyecto-E-commerce-proyecto/service"
-)
-
-// Productos “de presentación” (por si falla la BD o los quieres mostrar de ejemplo)
-var (
-	productos = []models.Producto{
-		{
-			ID:     1,
-			Nombre: "Laptop",
-			Precio: 1000.0,
-			Stock:  10,
-			Imagen: "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/page/category/laptop/xps/fy24-family-launch/prod-312204-laptop-xps-16-9640-14-9440-13-9340-sl-800x620.png?fmt=png-alpha&wid=800&hei=620",
-		},
-		{
-			ID:     2,
-			Nombre: "Smartphone",
-			Precio: 700.0,
-			Stock:  15,
-			Imagen: "https://cdsassets.apple.com/live/7WUAS350/images/tech-specs/iphone-16.png",
-		},
-		{
-			ID:     3,
-			Nombre: "Headphones",
-			Precio: 100.0,
-			Stock:  20,
-			Imagen: "https://i.ytimg.com/vi/UK72L99YbUE/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDmMCosMtxXMOxdtvoUClYWQUbUPQ",
-		},
-	}
-	carrito = models.Carrito{ID: 1}
 )
 
 func main() {
@@ -79,26 +50,43 @@ func main() {
 	r.GET("/", func(c *gin.Context) {
 		// Aquí podrías, si quieres, intentar obtener productos de la BD:
 
-		if db != nil {
-			productosDB, err := service.GetAllProducts(db)
-			if err != nil {
-				log.Printf("Error al obtener productos desde la DB: %v", err)
-			} else {
-				productos = productosDB // Sobrescribes o combinas
-			}
+		productos, err := service.GetAllProducts(db)
+		if err != nil {
+			c.JSON(500, "errror al obtener los productos")
 		}
 
 		c.HTML(http.StatusOK, "index.html", gin.H{
-			"productos":    productos,
-			"totalCarrito": carrito.Total,
+			"productos": productos,
 		})
 	})
 
-	// Ruta para agregar un producto al carrito
-	r.POST("/add-to-cart", service.AddToCart)
+	r.GET("/cart", func(context *gin.Context) {
+		context.HTML(http.StatusOK, "cart.html", gin.H{})
+	})
 
-	// Ruta para mostrar el contenido del carrito
-	r.GET("/cart", service.GetCart)
+	r.POST("/api/comprar", service.CrearCompraHandler(db))
+
+	r.GET("/compras", func(context *gin.Context) {
+		compras, err := service.ObtenerCompras(db)
+		if err != nil {
+			log.Printf("Error al obtener compras desde la DB: %v", err)
+		}
+
+		context.HTML(http.StatusOK, "compras.html", gin.H{
+			"compras": compras,
+		})
+	})
+
+	r.GET("/productos", func(context *gin.Context) {
+		productos, err := service.GetAllProducts(db)
+
+		if err != nil {
+			context.JSON(500, "errror al obtener los productos")
+		}
+		context.HTML(http.StatusOK, "gestion_productos.html", gin.H{
+			"productos": productos,
+		})
+	})
 
 	// Iniciar el servidor
 	r.Run(":8080")

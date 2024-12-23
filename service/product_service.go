@@ -1,10 +1,9 @@
 package service
 
 import (
+	"Proyecto-E-commerce-proyecto/models"
 	"database/sql"
 	"fmt"
-
-	"Proyecto-E-commerce-proyecto/models"
 )
 
 // GetAllProducts (exportada, empieza con mayúscula) hace SELECT a la tabla "productos".
