@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin1234
+      MYSQL_USER: mysql
+      MYSQL_PASSWORD: admin1234
+      MYSQL_DATABASE: mi_tienda
+    ports:
+      - "3306:3306" # Exponer el puerto para conexiones externas
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ../sql:/docker-entrypoint-initdb.d # Montar la carpeta con los SQL
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
+
+volumes:
+  mysql_data:
+    driver: local
