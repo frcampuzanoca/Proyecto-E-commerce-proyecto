@@ -88,3 +88,112 @@ a {
 a:hover {
     color: #001a33; /* Azul aún más oscuro */
 }
+
+
+/*
+
+css para el index para los productos
+
+*/
+
+/* Configurar el contenedor de productos en un diseño de 3 columnas */
+/* Configurar el contenedor de productos en un diseño de 3 columnas */
+#products {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px; /* Espacio entre las columnas */
+    margin: 20px;
+}
+
+/* Ajustar los productos dentro del contenedor */
+.product {
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Ajustar las imágenes para que no se corten y se redimensionen proporcionalmente */
+.product img {
+    max-width: 100%; /* Máximo ancho del contenedor */
+    height: auto; /* Altura proporcional al ancho */
+    max-height: 200px; /* Máxima altura */
+    display: block; /* Centrar en el contenedor */
+    margin: 0 auto; /* Asegurar que esté centrada */
+    border-radius: 5px;
+}
+
+/* Estilizar el botón */
+button {
+    margin: 5px;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilizar la sección del carrito */
+.centered {
+    text-align: center;
+    margin: 20px 0;
+}
+
+a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #0056b3;
+}
+
+/*
+estilos para cart.html
+*/
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+#pay-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#pay-button:hover {
+    background-color: #0056b3;
+}

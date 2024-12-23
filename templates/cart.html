@@ -1,25 +1,127 @@
+<!-- cart.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito</title>
-    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="static/styles.css">
 </head>
 <body>
-    <h1>Carrito de Compras</h1>
-    <div id="cart">
-        {{if .products}}
-        <ul>
-            {{range .products}}
-            <li>{{.Name}} - ${{.Price}}</li>
-            {{end}}
-        </ul>
-        <p><strong>Total: ${{.total}}</strong></p>
-        {{else}}
-        <p>El carrito está vacío.</p>
-        {{end}}
+<!-- Barra de navegación -->
+<div class="navbar">
+    <h1 class="welcome-text">Carrito de Compras</h1>
+    <div class="nav-buttons">
+        <button onclick="window.location.href='/'" class="nav-btn">Regresar</button>
     </div>
-    <a href="/">Volver a la tienda</a>
+</div>
+
+<!-- Formulario de datos del comprador -->
+<div class="centered">
+    <h2>Información del Comprador</h2>
+    <form id="checkout-form">
+        <label for="buyer-name">Nombre:</label>
+        <input type="text" id="buyer-name" required><br>
+
+        <label for="buyer-email">Correo:</label>
+        <input type="email" id="buyer-email" required><br>
+
+        <label for="buyer-address">Dirección:</label>
+        <input type="text" id="buyer-address" required><br>
+    </form>
+</div>
+
+<!-- Resumen del carrito -->
+<div id="cart-summary" class="centered">
+    <h2>Resumen de Productos</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Imagen</th>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Subtotal</th>
+        </tr>
+        </thead>
+        <tbody id="cart-items">
+        <!-- Los productos se llenarán dinámicamente con JavaScript -->
+        </tbody>
+    </table>
+    <h3 id="total">Total: $0.00</h3>
+    <button id="pay-button">Realizar Pago</button>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+        // Contenedor de productos
+        const cartItemsContainer = document.getElementById('cart-items');
+        const totalContainer = document.getElementById('total');
+        const payButton = document.getElementById('pay-button');
+
+        // Calcular total y renderizar productos
+        let total = 0;
+        carrito.forEach(producto => {
+            total += producto.subtotal;
+
+            // Crear fila de producto
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><img src="${producto.imagen}" alt="${producto.nombre}" style="width: 50px; height: 50px;"></td>
+                <td>${producto.nombre}</td>
+                <td>$${producto.precio.toFixed(2)}</td>
+                <td>${producto.cantidad}</td>
+                <td>$${producto.subtotal.toFixed(2)}</td>
+            `;
+            cartItemsContainer.appendChild(row);
+        });
+
+        // Mostrar total
+        totalContainer.textContent = `Total: $${total.toFixed(2)}`;
+
+        // Configurar botón de pago
+        payButton.addEventListener('click', async () => {
+            const buyerName = document.getElementById('buyer-name').value;
+            const buyerEmail = document.getElementById('buyer-email').value;
+            const buyerAddress = document.getElementById('buyer-address').value;
+
+            if (!buyerName || !buyerEmail || !buyerAddress) {
+                alert('Por favor, completa todos los campos.');
+                return;
+            }
+
+            const purchaseData = {
+                nombre: buyerName,
+                correo: buyerEmail,
+                direccion: buyerAddress,
+                productos: carrito,
+                total: total,
+                estado: 'completado'
+            };
+
+            try {
+                const response = await fetch('/api/comprar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(purchaseData)
+                });
+
+                if (response.ok) {
+                    alert('Compra realizada con éxito.');
+                    localStorage.removeItem('carrito'); // Vaciar carrito
+                    window.location.href = '/'; // Redirigir a la página principal
+                } else {
+                    alert('Error al realizar la compra.');
+                }
+            } catch (error) {
+                alert('Ocurrió un error al conectar con el servidor.');
+            }
+        });
+    });
+</script>
 </body>
 </html>

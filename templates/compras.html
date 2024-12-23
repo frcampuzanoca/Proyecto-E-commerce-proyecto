@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compras Realizadas</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+<!-- Barra de navegación -->
+<div class="navbar">
+    <h1 class="welcome-text">Compras Realizadas</h1>
+    <div class="nav-buttons">
+        <button onclick="window.location.href='/'" class="nav-btn">Regresar</button>
+    </div>
+</div>
+
+<!-- Listado de compras -->
+<div id="purchases-summary" class="centered">
+    <h2>Lista de Compras</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Comprador</th>
+            <th>Correo</th>
+            <th>Total</th>
+            <th>Cantidad de Ítems</th>
+            <th>Estado</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{range .compras}}
+        <tr>
+            <td>{{.Fecha}}</td>
+            <td>{{.Nombre}}</td>
+            <td>{{.Correo}}</td>
+            <td>${{.Total}}</td>
+            <td>{{.CantidadItems}}</td>
+            <td>{{.Estado}}</td>
+        </tr>
+        {{end}}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

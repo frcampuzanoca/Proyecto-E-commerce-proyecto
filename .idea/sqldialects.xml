@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
+<<<<<<< HEAD
     <file url="file://$PROJECT_DIR$/service/product_service.go" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/sql/database.sql" dialect="MySQL" />
+=======
+    <file url="file://$PROJECT_DIR$/mi_tienda.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/productos.sql" dialect="MySQL" />
+  </component>
+  <component name="SqlResolveMappings">
+    <file url="file://$PROJECT_DIR$/productos.sql" scope="{&quot;node&quot;:{  &quot;@negative&quot;:&quot;1&quot;,  &quot;group&quot;:{   &quot;@kind&quot;:&quot;root&quot;,   &quot;node&quot;:{    &quot;@negative&quot;:&quot;1&quot;   }  } }}" />
+>>>>>>> 1941ec1f31b62be12666b6a82d0af0c8580ffa78
   </component>
 </project>

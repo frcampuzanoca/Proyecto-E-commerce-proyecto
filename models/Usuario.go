@@ -71,7 +71,7 @@ func (u *Usuario) validarContrasena(contrasena string) error {
 // Cliente extiende Usuario
 type Cliente struct {
 	Usuario          // Composición
-	Pedidos []Pedido `json:"pedidos"`
+	Pedidos []Compra `json:"compras"`
 }
 
 // Administrador extiende Usuario

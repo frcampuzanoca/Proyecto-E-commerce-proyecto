@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+<<<<<<< HEAD
     <data-source source="LOCAL" name="mi_tienda@localhost" uuid="ec7ad554-99e1-4057-a33c-7ca47e41ede8">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
@@ -11,6 +12,20 @@
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
         <property name="com.intellij.clouds.kubernetes.db.container.port" />
       </jdbc-additional-properties>
+=======
+    <data-source source="LOCAL" name="Connect.go@localhost" uuid="03345edb-d953-4d73-be16-f7de7d297bf9">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/Connect.go</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="@127.0.0.1" uuid="42f78c60-bf9b-420c-842c-372a9496e49c">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://127.0.0.1:3306</jdbc-url>
+>>>>>>> 1941ec1f31b62be12666b6a82d0af0c8580ffa78
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
